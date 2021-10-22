@@ -32,7 +32,7 @@ class RecipesReader
   end
 
   def getPrep(recipes)
-    prep_order = ["peel","cut","brown","boulette"]
+    prep_order = ["peel", "cut", "brown", "boulette"]
     return @table
       .select { |row| recipes.include?(row["菜名"]) && row["种类"] == "prep" }
       .sort_by { |row| prep_order.find_index(row.field("单位")) }
