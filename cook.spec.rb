@@ -3,7 +3,8 @@ require_relative './cook'
 
 class CookTest < Test::Unit::TestCase
   def test_getIngred
-    result = getIngred(["boulette_ikea", "tartiflette"])
+    recipesReader = RecipesReader.new "recipe.csv"
+    result = recipesReader.getIngred(["boulette_ikea", "tartiflette"])
 
     expected = [
       ["oignon", 3, nil],
@@ -19,7 +20,8 @@ class CookTest < Test::Unit::TestCase
   end
 
   def test_getPrep
-    result = getPrep(["boulette_ikea", "tartiflette"])
+    recipesReader = RecipesReader.new "recipe.csv"
+    result = recipesReader.getPrep(["boulette_ikea", "tartiflette"])
 
     expected = [
       ["tartiflette", "peel", "eplucher les pdt"],
