@@ -20,28 +20,30 @@ def getIngred(recipes)
   table = CSV.open("recipe.csv", headers: true).each.to_a
   return table
     .select { |row| recipes.include?(row["菜名"]) && row["种类"] == "ingred" }
-    .group_by {|row| row["食谱"]}
-    .map {|key,value| [
+    .group_by { |row| row["食谱"] }
+    .map { |key,value| [
       key,
       value.inject(0){|sum,x| sum + x.field("数量").to_i}, 
       value[0].field("单位")
     ]}
 end
 
-
 def getPrep(recipes)
   table = CSV.open("recipe.csv", headers: true).each.to_a
-  ord=["peel","cut","brown","boulette"]
+  prep_order = ["peel","cut","brown","boulette"]
   return table
-    .select{ |row| recipes.include?(row["菜名"]) && row["种类"] == "prep" }
-    .sort{ |a,b| ord.find_index(a.field("单位")) <=> ord.find_index(b.field("单位"))}
-    .map {|row| row.fields("菜名","单位","步骤")}
-
+    .select { |row| recipes.include?(row["菜名"]) && row["种类"] == "prep" }
+    .sort_by { |row| prep_order.find_index(row.field("单位")) }
+    .map { |row| row.fields("菜名","单位","步骤") }
 end
 
-ingred = getIngred(["boulette_ikea", "tartiflette"])
-prep = getPrep(["boulette_ikea", "tartiflette"])
-prep.each do |a|
-  print a
-  puts ""
-end
+# ingred = getIngred(["boulette_ikea", "tartiflette"])
+# ingred.each do |a|
+#   print a
+#   puts ""
+# end
+# prep = getPrep(["boulette_ikea", "tartiflette"])
+# prep.each do |a|
+#   print a
+#   puts ""
+# end
